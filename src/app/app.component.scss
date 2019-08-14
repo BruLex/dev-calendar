@@ -1,0 +1,86 @@
+
+.green-zone {
+  ::ng-deep .collapsible-header, ::ng-deep .collapsible-body {
+    background-color: #33B679;
+  }
+}
+
+.yellow-zone {
+  ::ng-deep .collapsible-header, ::ng-deep .collapsible-body {
+    background-color: #F6BF26;
+  }
+}
+
+.red-zone {
+  ::ng-deep .collapsible-header, ::ng-deep .collapsible-body {
+    background-color: #E67C73;
+  }
+}
+
+mz-tab {
+  width: 370px;
+  display: inline-block;
+
+  ::ng-deep .tabs {
+    background-color: #2196f3;
+
+    ::ng-deep .tab {
+      a {
+        color: white;
+
+        &.active {
+          color: white;
+        }
+
+        &:hover {
+          background-color: rgba(white, 0.1);
+        }
+      }
+    }
+
+    .indicator {
+      background-color: white;
+    }
+  }
+}
+
+mz-collapsible {
+  ::ng-deep .collapsible-header, ::ng-deep .collapsible-body {
+    color: white;
+    border-bottom: none;
+  }
+
+  ::ng-deep .collapsible{
+    margin: 0;
+    border-top: none;
+    box-shadow: none;
+}
+}
+
+.extend-opacity {
+  opacity: 0.5;
+}
+mz-collapsible-item-header {
+  display: flex;
+  width: 100%;
+  font-size: 14px;
+  .summary {
+    width: 200px;
+    margin-right: 24px;
+  }
+}
+
+mz-collapsible-item-body {
+  display: flex;
+  font-size: 14px;
+
+  .date {
+    width: 100%;
+    display: flex;
+    :first-child {
+      width: auto;
+      margin-right: 24px;
+    }
+  }
+}
+
