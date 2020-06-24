@@ -27,29 +27,28 @@ const FIRST_ELEM_COUNT: number = 3;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-    title = 'dev-calendar';
     dateNow: Date = new Date();
-
     zonesArray: string[] = ['GREEN_ZONE', 'YELLOW_ZONE', 'RED_ZONE'];
     zonesMap: { [key: string]: string } = ZONES_MAP;
-
     calendarsMap: { [key: string]: Schema$Events } = {
         GREEN_ZONE: null,
         YELLOW_ZONE: null,
         RED_ZONE: null
     };
-
     eventsMap: { [key: string]: Schema$Event[] } = {
         GREEN_ZONE: null,
         YELLOW_ZONE: null,
         RED_ZONE: null
     };
-
     firstEventsMap: { [key: string]: Schema$Event[] } = {
         GREEN_ZONE: null,
         YELLOW_ZONE: null,
         RED_ZONE: null
     };
+
+    get isReady(): boolean {
+        return !!this.eventsMap.GREEN_ZONE && !!this.eventsMap.YELLOW_ZONE && !!this.eventsMap.RED_ZONE;
+    }
 
     constructor(private http: HttpClient, private cdRef: ChangeDetectorRef) {
         this.updateStorage(ZONES_MAP.GREEN_ZONE);
@@ -57,8 +56,27 @@ export class AppComponent {
         this.updateStorage(ZONES_MAP.RED_ZONE);
     }
 
-    get isReady(): boolean {
-        return !!this.eventsMap.GREEN_ZONE && !!this.eventsMap.YELLOW_ZONE && !!this.eventsMap.RED_ZONE;
+    getEventsAtDate(
+        events: Schema$Events,
+        date: Date = new Date(),
+        dateControl: 'm' | 'l' | 'b' = 'm'
+    ): Schema$Event[] {
+        return events.items.filter((obj: Schema$Event) =>
+            dateControl === 'm'
+                ? Date.parse(obj.start.date) < date.getTime() && date.getTime() < Date.parse(obj.end.date)
+                : dateControl === 'b'
+                ? date.getTime() < Date.parse(obj.start.date)
+                : date.getTime() > Date.parse(obj.end.date)
+        );
+    }
+
+    getFirstEvents(array: any[]): Schema$Event[] {
+        return array.splice(0, FIRST_ELEM_COUNT);
+    }
+
+    getLeftDays(date: string): number {
+        const cmp: number = Date.parse(date) - Date.now() - 2 * 3600 * 1000;
+        return (cmp / (1000 * 3600 * 24)) | 0;
     }
 
     private getData(calendarId: string): Observable<Schema$Events> {
@@ -89,28 +107,5 @@ export class AppComponent {
             storageObj[storage] = obj;
             this.setZoneDate(storage, obj);
         });
-    }
-
-    getEventsAtDate(
-        events: Schema$Events,
-        date: Date = new Date(),
-        dateControl: 'm' | 'l' | 'b' = 'm'
-    ): Schema$Event[] {
-        return events.items.filter((obj: Schema$Event) =>
-            dateControl === 'm'
-                ? Date.parse(obj.start.date) < date.getTime() && date.getTime() < Date.parse(obj.end.date)
-                : dateControl === 'b'
-                ? date.getTime() < Date.parse(obj.start.date)
-                : date.getTime() > Date.parse(obj.end.date)
-        );
-    }
-
-    getFirstEvents(array: any[]): Schema$Event[] {
-        return array.splice(0, FIRST_ELEM_COUNT);
-    }
-
-    getLeftDays(date: string): number {
-        const cmp: number = Date.parse(date) - Date.now() - 2 * 3600 * 1000;
-        return (cmp / (1000 * 3600 * 24)) | 0;
     }
 }
