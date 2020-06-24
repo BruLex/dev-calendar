@@ -12,11 +12,11 @@
                            }">
             <mz-collapsible-item>
               <mz-collapsible-item-header >
-                <div class="summary">{{ event.summary }}</div><div>End {{getLeftDays(event.end.date)}} days</div>
+                <div class="summary">{{ event.summary }}</div><div>End {{ getLeftDays(event.end.date) }} days</div>
               </mz-collapsible-item-header>
               <mz-collapsible-item-body>
-                <div class="date"><div >From:</div><div>{{event.start.date}}</div></div>
-                <div class="date"><div class="date">To:</div><div>{{event.end.date}}</div></div>
+                <div class="date"><div >From:</div><div>{{ event.start.date }}</div></div>
+                <div class="date"><div class="date">To:</div><div>{{ event.end.date }}</div></div>
               </mz-collapsible-item-body>
             </mz-collapsible-item>
           </mz-collapsible>
@@ -34,11 +34,11 @@
                            }">
           <mz-collapsible-item>
             <mz-collapsible-item-header>
-              <div class="summary">{{ event.summary }}</div><div>Start {{getLeftDays(event.start.date)}} days</div>
+              <div class="summary">{{ event.summary }}</div><div>Start {{ getLeftDays(event.start.date) }} days</div>
             </mz-collapsible-item-header>
             <mz-collapsible-item-body>
-              <div class="date"><div >From:</div><div>{{event.start.date}}</div></div>
-              <div class="date"><div class="date">To:</div><div>{{event.end.date}}</div></div>
+              <div class="date"><div >From:</div><div>{{ event.start.date }}</div></div>
+              <div class="date"><div class="date">To:</div><div>{{ event.end.date }}</div></div>
             </mz-collapsible-item-body>
           </mz-collapsible-item>
         </mz-collapsible>
@@ -46,7 +46,6 @@
     </ng-container>
   </mz-tab-item>
 </mz-tab>
-
 
 
 
