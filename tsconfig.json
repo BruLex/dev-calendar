@@ -11,9 +11,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [
-      "chrome",
-      "jquery",
-      "materialize-css"
+      "chrome"
     ],
     "target": "es2015",
     "typeRoots": [
