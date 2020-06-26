@@ -1,52 +1,41 @@
-<mz-tab
-  [fixedTabWidth]="true"
-  [responsiveThreshold]="370">
-  <mz-tab-item [label]="'Today'">
-    <div>
-      <ng-container *ngIf="isReady">
-        <ng-container *ngFor="let zones of zonesArray">
-          <mz-collapsible *ngFor="let event of eventsMap[zones]"  [ngClass]="{
-                           'green-zone': zones === zonesMap.GREEN_ZONE,
-                           'yellow-zone': zones === zonesMap.YELLOW_ZONE,
-                           'red-zone': zones === zonesMap.RED_ZONE
-                           }">
-            <mz-collapsible-item>
-              <mz-collapsible-item-header >
-                <div class="summary">{{ event.summary }}</div><div>End {{ getLeftDays(event.end.date) }} days</div>
-              </mz-collapsible-item-header>
-              <mz-collapsible-item-body>
-                <div class="date"><div >From:</div><div>{{ event.start.date }}</div></div>
-                <div class="date"><div class="date">To:</div><div>{{ event.end.date }}</div></div>
-              </mz-collapsible-item-body>
-            </mz-collapsible-item>
-          </mz-collapsible>
+<mat-tab-group mat-stretch-tabs dynamicHeight mat-align-tabs="center">
+    <mat-tab [label]="'Today'">
+        <ng-template [ngTemplateOutlet]="eventsTab"
+                     [ngTemplateOutletContext]="{ $implicit: { eventsMap: todayEventsMap, start: false } }">
+        </ng-template>
+    </mat-tab>
+    <mat-tab [label]="'Upcoming'">
+        <ng-template [ngTemplateOutlet]="eventsTab"
+                     [ngTemplateOutletContext]="{ $implicit: { eventsMap: upcomingEventsMap, start: true } }">
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
+
+
+
+<ng-template #eventsTab let-data>
+        <ng-container *ngIf="isReady">
+            <ng-container *ngFor="let zoneItem of zonesArray">
+                <mat-accordion multi [displayMode]="'flat'">
+                    <mat-expansion-panel
+                            *ngFor="let event of data.eventsMap[zoneItem.value]" [class]="zoneItem.class">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="summary">{{ event.summary }}</mat-panel-title>
+                            <mat-panel-description class="event-description">
+                                {{ data.start ? 'Start' : 'End' }} {{ getLeftDays(event[data.start ? 'start' : 'end'].date) }} days
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="date">
+                            <div>From:</div>
+                            <div>{{ event.start.date }}</div>
+                        </div>
+                        <div class="date">
+                            <div class="date">To:</div>
+                            <div>{{ event.end.date }}</div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ng-container>
         </ng-container>
-      </ng-container>
-    </div>
-  </mz-tab-item>
-  <mz-tab-item [label]="'Upcoming'">
-    <ng-container *ngIf="isReady">
-      <ng-container *ngFor="let zones of zonesArray">
-        <mz-collapsible *ngFor="let event of firstEventsMap[zones]"  [ngClass]="{
-                           'green-zone': zones === zonesMap.GREEN_ZONE,
-                           'yellow-zone': zones === zonesMap.YELLOW_ZONE,
-                           'red-zone': zones === zonesMap.RED_ZONE
-                           }">
-          <mz-collapsible-item>
-            <mz-collapsible-item-header>
-              <div class="summary">{{ event.summary }}</div><div>Start {{ getLeftDays(event.start.date) }} days</div>
-            </mz-collapsible-item-header>
-            <mz-collapsible-item-body>
-              <div class="date"><div >From:</div><div>{{ event.start.date }}</div></div>
-              <div class="date"><div class="date">To:</div><div>{{ event.end.date }}</div></div>
-            </mz-collapsible-item-body>
-          </mz-collapsible-item>
-        </mz-collapsible>
-      </ng-container>
-    </ng-container>
-  </mz-tab-item>
-</mz-tab>
-
-
-
+</ng-template>
 
