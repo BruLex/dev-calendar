@@ -1,4 +1,4 @@
-<mat-tab-group mat-stretch-tabs dynamicHeight mat-align-tabs="center">
+<mat-tab-group mat-stretch-tabs dynamicHeight mat-align-tabs="center" backgroundColor="primary">
     <mat-tab [label]="'Today'">
         <ng-template [ngTemplateOutlet]="eventsTab"
                      [ngTemplateOutletContext]="{ $implicit: { eventsMap: todayEventsMap, start: false } }">
@@ -11,31 +11,24 @@
     </mat-tab>
 </mat-tab-group>
 
-
-
 <ng-template #eventsTab let-data>
-        <ng-container *ngIf="isReady">
-            <ng-container *ngFor="let zoneItem of zonesArray">
-                <mat-accordion multi [displayMode]="'flat'">
-                    <mat-expansion-panel
-                            *ngFor="let event of data.eventsMap[zoneItem.value]" [class]="zoneItem.class">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="summary">{{ event.summary }}</mat-panel-title>
-                            <mat-panel-description class="event-description">
-                                {{ data.start ? 'Start' : 'End' }} {{ getLeftDays(event[data.start ? 'start' : 'end'].date) }} days
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <div class="date">
-                            <div>From:</div>
-                            <div>{{ event.start.date }}</div>
-                        </div>
-                        <div class="date">
-                            <div class="date">To:</div>
-                            <div>{{ event.end.date }}</div>
-                        </div>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </ng-container>
+    <ng-container *ngIf="isReady">
+        <ng-container *ngFor="let zoneItem of zonesArray">
+            <mat-accordion multi [displayMode]="'flat'">
+                <mat-expansion-panel *ngFor="let event of data.eventsMap[zoneItem.value]" [class]="zoneItem.class">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>{{ event.summary }}</mat-panel-title>
+                        <mat-panel-description>
+                            {{ data.start ? 'Start' : 'End' }} {{ getLeftDays(event[data.start ? 'start' : 'end'].date) }} days
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div fxFlex fxLayout="row" fxFlexAlign="space-around center" [style.text-align]="'center'">
+                        <div fxFlex>From: {{ event.start.date }}</div>
+                        <div fxFlex>To: {{ event.end.date }}</div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
         </ng-container>
+    </ng-container>
 </ng-template>
 

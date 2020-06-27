@@ -1,4 +1,8 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@angular/material/_theming.scss";
+@import "./variables";
+
+@include angular-material-theme($defaultTheme);
 
 body, html {font-family:Roboto,Helvetica,Arial,sans-serif;}/* cyrillic-ext */
 @font-face {

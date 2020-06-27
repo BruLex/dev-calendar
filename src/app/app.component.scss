@@ -1,4 +1,3 @@
-
 .green-zone {
     background-color: #33B679;
 }
@@ -10,25 +9,10 @@
 .red-zone {
     background-color: #E67C73;
 }
-
-.extend-opacity {
-  opacity: 0.5;
+mat-panel-title {
+    width: 180px;
+    flex-grow: 0;
 }
-.summary {
-  width: 200px;
-  margin-right: 24px;
-}
-.event-description {
+::ng-deep .mat-expansion-panel {
     text-align: start;
-}
-
-.date {
-  width: 100%;
-  display: flex;
-
-  :first-child {
-    width: auto;
-    margin-right: 24px;
-  }
-
 }
