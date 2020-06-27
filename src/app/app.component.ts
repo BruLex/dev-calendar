@@ -29,8 +29,8 @@ export class AppComponent implements OnDestroy {
     dateNow: Date = new Date();
     readonly zonesArray: { value: Zone; class: string }[] = [
         { value: Zone.GreenZone, class: 'green-zone' },
-        { value: Zone.RedZone, class: 'red-zone' },
-        { value: Zone.YellowZone, class: 'yellow-zone' }
+        { value: Zone.YellowZone, class: 'yellow-zone' },
+        { value: Zone.RedZone, class: 'red-zone' }
     ];
     todayEventsMap: Record<Zone, Schema$Event[]> = {
         [Zone.GreenZone]: null,
