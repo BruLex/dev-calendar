@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "extension/dev-calendar-ext",
+            "outputPath": "dist/dev-calendar",
             "outputHashing": "none",
             "index": "src/index.html",
             "main": "src/main.ts",

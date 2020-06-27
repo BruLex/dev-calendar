@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && npm run copy-extension-files",
+    "copy-extension-files": "node scripts/copy-extension-files.js",
     "lint": "ng lint"
   },
   "private": true,
