@@ -1,3 +1,6 @@
+mat-tab-group {
+    width: 395px;
+}
 .green-zone {
     background-color: #33B679;
 }
@@ -12,7 +15,16 @@
 mat-panel-title {
     width: 180px;
     flex-grow: 0;
+    white-space: nowrap;
 }
-::ng-deep .mat-expansion-panel {
-    text-align: start;
+
+::ng-deep {
+
+    .mat-expansion-panel-body {
+        text-align: center;
+    }
+
+    .mat-expansion-panel-header-description {
+        justify-content: flex-end;
+    }
 }

@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^9.1.11",
     "@angular/router": "^9.1.11",
     "googleapis": "^52.1.0",
+    "ngx-let-directive": "^1.0.1",
     "prettier": "^2.0.5",
     "rxjs": "^6.5.5",
     "tslib": "^2.0.0",

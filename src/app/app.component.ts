@@ -32,8 +32,16 @@ export class AppComponent implements OnDestroy {
         { value: Zone.RedZone, class: 'red-zone' },
         { value: Zone.YellowZone, class: 'yellow-zone' }
     ];
-    todayEventsMap: Record<Zone, any> = { [Zone.GreenZone]: null, [Zone.YellowZone]: null, [Zone.RedZone]: null };
-    upcomingEventsMap: Record<Zone, any> = { [Zone.GreenZone]: null, [Zone.YellowZone]: null, [Zone.RedZone]: null };
+    todayEventsMap: Record<Zone, Schema$Event[]> = {
+        [Zone.GreenZone]: null,
+        [Zone.YellowZone]: null,
+        [Zone.RedZone]: null
+    };
+    upcomingEventsMap: Record<Zone, Schema$Event[]> = {
+        [Zone.GreenZone]: null,
+        [Zone.YellowZone]: null,
+        [Zone.RedZone]: null
+    };
 
     get isReady(): boolean {
         return Object.values(Zone)
@@ -50,11 +58,45 @@ export class AppComponent implements OnDestroy {
                 this.subs.push(this.getData(CALENDARS_URL_MAP[zone]).subscribe(obj => this.setZoneDate(zone, obj)))
             );
     }
+
     ngOnDestroy(): void {
         this.subs.forEach(sub => sub.unsubscribe());
     }
 
-    getEventsAtDate(
+    fixEndDate(date: string): string {
+        return date;
+        const [{ value: month }, , { value: day }, , { value: year }] = new Intl.DateTimeFormat('en', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).formatToParts(new Date(new Date(date).getTime() - 24 * 3600 * 1000));
+        return `${day}-${month}-${year}`;
+    }
+
+    getLeftDays(date: string): number {
+        const cmp: number = Date.parse(date) - Date.now();
+        return Math.ceil(cmp / (1000 * 3600 * 24));
+    }
+
+    getLeftBusinessDays(date: string): number {
+        return this.calculateBusinessDaysBetweenDates(new Date(), date);
+    }
+
+    private calculateBusinessDaysBetweenDates(start: Date | string, end: Date | string): number {
+        let count: number = 0;
+        const curDate: Date = new Date(start);
+        const endDate: Date = new Date(end);
+        while (curDate <= endDate) {
+            const dayOfWeek: number = curDate.getDay();
+            if (![0, 6].includes(dayOfWeek)) {
+                count++;
+            }
+            curDate.setDate(curDate.getDate() + 1);
+        }
+        return count;
+    }
+
+    private getEventsAtDate(
         events: Schema$Events,
         date: Date = new Date(),
         dateControl: 'm' | 'l' | 'b' = 'm'
@@ -68,13 +110,8 @@ export class AppComponent implements OnDestroy {
         );
     }
 
-    getFirstEvents(array: any[]): Schema$Event[] {
+    private getFirstEvents(array: any[]): Schema$Event[] {
         return array.splice(0, FIRST_ELEM_COUNT);
-    }
-
-    getLeftDays(date: string): number {
-        const cmp: number = Date.parse(date) - Date.now() - 2 * 3600 * 1000;
-        return (cmp / (1000 * 3600 * 24)) | 0;
     }
 
     private getData(calendarId: string): Observable<Schema$Events> {

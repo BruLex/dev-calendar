@@ -1,10 +1,10 @@
 <mat-tab-group mat-stretch-tabs dynamicHeight mat-align-tabs="center" backgroundColor="primary">
-    <mat-tab [label]="'Today'">
+    <mat-tab [label]="'Today/working days left'">
         <ng-template [ngTemplateOutlet]="eventsTab"
                      [ngTemplateOutletContext]="{ $implicit: { eventsMap: todayEventsMap, start: false } }">
         </ng-template>
     </mat-tab>
-    <mat-tab [label]="'Upcoming'">
+    <mat-tab [label]="'Upcoming/start in days'">
         <ng-template [ngTemplateOutlet]="eventsTab"
                      [ngTemplateOutletContext]="{ $implicit: { eventsMap: upcomingEventsMap, start: true } }">
         </ng-template>
@@ -18,17 +18,16 @@
                 <mat-expansion-panel *ngFor="let event of data.eventsMap[zoneItem.value]" [class]="zoneItem.class">
                     <mat-expansion-panel-header>
                         <mat-panel-title>{{ event.summary }}</mat-panel-title>
-                        <mat-panel-description>
-                            {{ data.start ? 'Start' : 'End' }} {{ getLeftDays(event[data.start ? 'start' : 'end'].date) }} days
+                        <mat-panel-description *let="data.start ? getLeftDays(event.start.date) : getLeftBusinessDays(event.end.date) as days">
+                            {{ days }} day{{ days === 1 ? '': 's' }}
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div fxFlex fxLayout="row" fxFlexAlign="space-around center" [style.text-align]="'center'">
+                    <div fxFlex fxLayout="row" fxFlexAlign="space-around center" >
                         <div fxFlex>From: {{ event.start.date }}</div>
-                        <div fxFlex>To: {{ event.end.date }}</div>
+                        <div fxFlex>To: {{ fixEndDate(event.end.date) }}</div>
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
         </ng-container>
     </ng-container>
 </ng-template>
-
